@@ -142,9 +142,8 @@ br {
 
 .texto4{
     font-family: 'Arial', sans-serif; /* Fuente legible y profesional */
-    font-weight: bold;
+    font-weight:bolder;
     font-size: 13.3px;
-    height: 1.3rem;
 }
 
 .table1  {
@@ -171,7 +170,6 @@ br {
     text-align: left;
     padding-bottom: 10px; /* Aumenta el relleno inferior */
     padding-left: 10px; /* Aumenta el relleno izquierdo */
-    padding: 4px;
 }
 
 /* Eliminar los bordes de la tabla */
@@ -196,4 +194,4 @@ br {
 /* Asegúrate de quitar cualquier otro estilo que pueda añadir bordes a tu tabla */
 
 
-/* Añade más estilos según sea necesario */
+/* Añade más estilos según sea necesario */

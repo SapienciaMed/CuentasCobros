@@ -13,22 +13,28 @@ const CuentaDeCobro = () => {
         margin: [10, 10, 10, 10], // Margen de 10 mm en todos los lados
         filename: 'CuentaDeCobro.pdf',
         image: { type: 'jpeg', quality: 0.98 }, // Uso de JPEG con alta calidad
-        html2canvas: { scale: 5, dpi: 300, letterRendering: true }, // Escala y DPI aumentados
+        html2canvas: { scale: 1, dpi: 300, letterRendering: true }, // Escala y DPI aumentados
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().from(input).set(options).save();
     }
+    
+
   };
-  
+  const hidden = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.display = 'none';
+    };
+
+    const eventClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+      printDocument();
+      hidden(e);
+    }
   return (
     <div  ref={componentRef}>
       {<div className="container">
-        <br />
-        <br />
-
         <div className="texto1">FECHA:{ }</div>
 
-        <div className="text-center p-4 sm:px-7  font-medium text-gray-800 md:text-2xl">
+        <div className="text-center p-2 sm:px-7  font-medium text-gray-800">
           <h1 className="texto4">CUENTA DE COBRO No. { }</h1>
           <br />
           <h1 className="texto4">
@@ -37,7 +43,7 @@ const CuentaDeCobro = () => {
           <h1 className="texto4">SAPIENCIA</h1>
           <h1 className="texto4">NIT:900.602.106-0</h1>
           <br />
-          <h1 className="texto4">DEBE A:</h1>
+          <h1 className="texto4 mb-2">DEBE A:</h1>
         </div>
 
         <div>
@@ -87,13 +93,11 @@ const CuentaDeCobro = () => {
 
           
 
-          <h1 className="texto2 text-center">
+          <h1 className="texto2 text-center mt-2 pb-2">
             POR LOS SIGUIENTES CONCEPTOS:
           </h1>
 
-          
-
-          <table className="table3">
+          <table className="table3 mt-2">
             <tr>
               <td className="td-inicial2">No. DE CONTRATO</td>
               <td >166 de 2023</td>
@@ -101,7 +105,7 @@ const CuentaDeCobro = () => {
 
             <tr>
               <td className="td-inicial2">OBJETO DEL CONTRATO</td>
-              <td >
+              <td className='leading-none'>
                 Prestación de servicios profesionales para la administración
                 de nube pública y privada, desarrollo, implementación y
                 puesta en marcha de aplicativos y demás. Esto con relación a
@@ -128,9 +132,8 @@ const CuentaDeCobro = () => {
               <td >$ 5.722.215</td>
             </tr>
           </table>
-          <br />
 
-          <p className="texto3">
+          <p className="texto3 mt-3 leading-none">
             He cancelado los aportes a la seguridad social mes vencido
             mediante Planilla de pago Nro. 69655746 Arus, para el periodo no
             aplica, discriminado así:
@@ -162,7 +165,7 @@ const CuentaDeCobro = () => {
 
           <br />
 
-          <p className="texto3">
+          <p className="texto3 leading-none">
             Con fundamento en lo establecido en la ley 2277 de 2022 que
             modifico el parágrafo 2 del Art. 383 E.T, reglamentado por el
             Decreto 2231 de 2023 y los Art.1.2.4.1.17 y el 1.2.4.1.6 del DUR
@@ -175,7 +178,7 @@ const CuentaDeCobro = () => {
 
           <br />
 
-          <p className="texto3">
+          <p className="texto3 leading-none">
             Así mismo declaro que los ingresos obtenidos corresponden a
             honorarios y/o compensación por servicios personales por
             concepto de rentas de trabajo que no provienen de una relación
@@ -193,7 +196,7 @@ const CuentaDeCobro = () => {
         </div>
 
       </div>}
-      <Buttonpdf onClick={printDocument} />
+      <Buttonpdf onClick={eventClick} />
     </div>
   );
 };
