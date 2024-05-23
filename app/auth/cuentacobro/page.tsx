@@ -12,23 +12,22 @@ const CuentaDeCobro = () => {
       const options = {
         margin: [10, 10, 10, 10], // Margen de 10 mm en todos los lados
         filename: 'CuentaDeCobro.pdf',
-        image: { type: 'jpeg', quality: 0.98 }, // Uso de JPEG con alta calidad
-        html2canvas: { scale: 1, dpi: 300, letterRendering: true }, // Escala y DPI aumentados
+        image: { type: 'jpeg', quality: 1 }, // Usando JPEG con la máxima calidad
+        html2canvas: { scale: 2, dpi: 600, letterRendering: true }, // Escala y DPI aumentados
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().from(input).set(options).save();
     }
-    
-
   };
-  const hidden = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.display = 'none';
-    };
 
-    const eventClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-      printDocument();
-      hidden(e);
-    }
+  const hidden = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.display = 'none';
+  };
+
+  const eventClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    printDocument();
+    hidden(e);
+  };
   return (
     <div  ref={componentRef}>
       {<div className="container">
