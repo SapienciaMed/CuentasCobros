@@ -75,7 +75,7 @@ const ReporteActividades = () => {
             </tr>
         </table>
         <br />
-        <table>
+        <table className='table3'>
             <tr>
                 <td className='tdd bg-zinc-400 text-center font-black'>ITEM</td>
                 <td className=' bg-zinc-400 text-center font-black'>Actividades Desarrolladas en el marco de las obligaciones contractuales</td>
@@ -185,8 +185,8 @@ const ReporteActividades = () => {
             <tr>
                 <td className='text-center'>7</td>
                 <td>Apoyar al Departamento Técnico de Fondos y las IES con las herramientas tecnológicas
-desarrolladas y con los requerimientos de mejoras o nuevos desarrollos.
-</td>
+                    desarrolladas y con los requerimientos de mejoras o nuevos desarrollos.
+                </td>
             </tr>
             <tr>
                 <td className='text-center'></td>
