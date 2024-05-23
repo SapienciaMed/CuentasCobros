@@ -1,0 +1,54 @@
+.container {
+    max-width: 800px; /* Ajusta el ancho máximo del contenedor */
+    margin: auto; /* Centra el contenedor en la página */
+    padding: 30px; /* Añade relleno alrededor del contenido */
+    background: #fff; /* Fondo blanco para el contenido */
+    padding-top: 0;
+}
+
+.td1{
+    border: 1px solid #c1c1c1;
+    width: 80%;
+    font-size: 13px;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 30px;
+}
+
+.td11{
+    border: 1px solid #c1c1c1;
+    width: 20%;
+    font-size: 13px;
+    padding: 20px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.td2{
+    border: 1px solid #c1c1c1;
+    width: 40%;
+    padding-left: 10px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.td22{
+    border: 1px solid #c1c1c1;
+    width: 60%;
+    padding-left: 10px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.td23{
+    border: 1px solid #c1c1c1;
+    width: 30%;
+}
+
+.table1{
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+}

@@ -1,0 +1,92 @@
+.container {
+    max-width: 800px; /* Ajusta el ancho máximo del contenedor */
+    margin: auto; /* Centra el contenedor en la página */
+    padding: 30px; /* Añade relleno alrededor del contenido */
+    background: #fff; /* Fondo blanco para el contenido */
+    padding-top: 0;
+}
+br {
+    line-height: 0.5; /* Reduce el espacio que añaden los <br> */
+}
+
+.texto1{
+    margin-top: 0; /* Elimina el margen superior */
+    font-size: 13.3px; /* Ajusta el tamaño de la fuente si es necesario */
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    text-align: justify;
+    margin-bottom: 0;
+    padding-top: 0;
+} 
+
+.td-inicial{
+    width: 50%;
+    font-size: 13px;
+ }
+
+ .td-inicial2{
+    width: 45%;
+    font-size: 13px;
+ }
+
+
+.texto2{
+    font-family: 'Arial', sans-serif; /* Fuente legible y profesional */
+    font-weight: bold;
+    font-size: 13.3px; 
+    padding: 1rem;
+} 
+.texto3 {
+    font-family: 'Arial', sans-serif; /* Fuente legible y profesional */
+    font-size: 13.3px;
+}
+
+.texto4{
+    font-family: 'Arial', sans-serif; /* Fuente legible y profesional */
+    font-weight:bolder;
+    font-size: 13.3px;
+}
+
+.table1  {
+    width: 100%; /* Ancho completo para las tablas */
+    border-collapse: collapse; /* Colapsa los bordes de las celdas */
+    font-size: 13.3px;
+}
+
+.table1 td {
+    border: 1px solid #c1c1c1; /* Borde sutil para las celdas */
+    text-align: left;
+    padding-bottom: 10px; /* Aumenta el relleno inferior */
+    padding-left: 10px; /* Aumenta el relleno izquierdo */
+}
+.table3{
+    width: 100%; /* Ancho completo para las tablas */
+    border-collapse: collapse; /* Colapsa los bordes de las celdas */
+    font-size: 13.3px; 
+    
+}
+
+.table3 td{
+    border: 1px solid #c1c1c1; /* Borde sutil para las celdas */
+    text-align: left;
+    padding-bottom: 10px; /* Aumenta el relleno inferior */
+    padding-left: 10px; /* Aumenta el relleno izquierdo */
+}
+
+/* Eliminar los bordes de la tabla */
+.table2 {
+    border-collapse: collapse; /* Asegura que los bordes estén colapsados */
+    width: 50%; /* Ajusta el ancho de la tabla según necesites */
+    margin-left: 11%; /* Ajusta la posición de la tabla */
+}
+
+.table2 td {
+    border: none; /* Elimina los bordes de las celdas */
+    padding: 8px; /* Añade un relleno para separar el contenido */
+    font-size: 13.3px;
+    padding: 0;
+}
+/* Estilos CSS para poner en negrita los textos del lado izquierdo */
+.table1 td:first-child,.table3 td:first-child  {
+    font-weight: bold; /* Aplica negrita a la primera celda de cada fila */
+}

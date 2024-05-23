@@ -2,6 +2,7 @@
 import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import Buttonpdf from '@/app/libs/ui/Buttonpdf';
+import '@/app/miscss/cuentacobro.css';
 
 const CuentaDeCobro = () => {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -14,7 +15,7 @@ const CuentaDeCobro = () => {
         filename: 'CuentaDeCobro.pdf',
         image: { type: 'jpeg', quality: 1 }, // Usando JPEG con la máxima calidad
         html2canvas: { scale: 2, dpi: 600, letterRendering: true }, // Escala y DPI aumentados
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'legal', orientation: 'portrait' }
       };
       html2pdf().from(input).set(options).save();
     }
@@ -31,10 +32,10 @@ const CuentaDeCobro = () => {
   return (
     <div  ref={componentRef}>
       {<div className="container">
-        <div className="texto1">FECHA:{ }</div>
+        <div className="texto1">FECHA: MAYO 23 2024</div>
 
         <div className="text-center p-2 sm:px-7  font-medium text-gray-800">
-          <h1 className="texto4">CUENTA DE COBRO No. { }</h1>
+          <h1 className="texto4">CUENTA DE COBRO No. 03-2024</h1>
           <br />
           <h1 className="texto4">
             LA AGENCIA DE EDUCACIÓN POSTSECUNDARIA DE MEDELLÍN -
