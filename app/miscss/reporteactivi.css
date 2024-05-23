@@ -4,7 +4,10 @@
     padding: 30px; /* Añade relleno alrededor del contenido */
     background: #fff; /* Fondo blanco para el contenido */
     padding-top: 0;
+    font-size: 13px;
 }
+
+
 
 .td1{
     border: 1px solid #c1c1c1;
@@ -43,7 +46,10 @@
 
 .td23{
     border: 1px solid #c1c1c1;
-    width: 30%;
+    width: 60%;
+    padding-left: 10px;
+    text-align: left;
+    padding-bottom: 10px;
 }
 
 .table1{
@@ -51,4 +57,21 @@
     width: 100%;
     text-align: left;
     padding-left: 10px;
+}
+
+.td24{
+    border: 1px solid #c1c1c1;
+    
+}
+
+td{
+    border: 1px solid #c1c1c1;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+
+.tdd{
+    padding-left: 0;
+
 }
