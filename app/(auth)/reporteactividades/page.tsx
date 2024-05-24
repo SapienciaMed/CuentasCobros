@@ -33,14 +33,14 @@ const ReporteActividades = () => {
     return (
       <div  ref={componentRef}>
         {<div className='container'>
-        <table>
+        <table className='mb-5'>
             <tr>
                 <td className='td1'>REPORTE DE ACTIVIDADES PARA SERVICIO DE APOYO A LA GESTIÓN</td>
                 <td className='td11'>Página 1 de 2 </td>
             </tr>
         </table>
-        <br />
-        <table className='table1'>
+        
+        <table className='table1 mb-6'>
             <tr>
                 <td className='td2'>Informe Número</td>
                 <td className='td22'colSpan={4}>Nro. 01</td>
@@ -74,8 +74,8 @@ const ReporteActividades = () => {
                 <td className='td24'>Junio de 2023</td>
             </tr>
         </table>
-        <br />
-        <table className='table3'>
+       
+        <table className='table3 mb-5'>
             <tr>
                 <td className='tdd bg-zinc-400 text-center font-black'>ITEM</td>
                 <td className=' bg-zinc-400 text-center font-black'>Actividades Desarrolladas en el marco de las obligaciones contractuales</td>
@@ -279,12 +279,11 @@ const ReporteActividades = () => {
                 </td>
             </tr>
         </table>
-        <br />
-        <p>Certifico bajo gravedad de juramento que la información consignada en este informe verídica y esta soportada de manera
+        
+        <p className='mb-10'>Certifico bajo gravedad de juramento que la información consignada en este informe verídica y esta soportada de manera
              física y en medio magnético, y podrá ser confirmada por la entidad contratante.
         </p>
-        <br />
-        <br />
+     
         <p> Firma_________________________ <br /> Nombre: Nombre Emerson Bolney Machado  <br />
             CC.88398893</p>
     </div>}

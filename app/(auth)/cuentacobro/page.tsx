@@ -15,7 +15,7 @@ const CuentaDeCobro = () => {
         filename: 'CuentaDeCobro.pdf',
         image: { type: 'jpeg', quality: 1 }, // Usando JPEG con la máxima calidad
         html2canvas: { scale: 2, dpi: 600, letterRendering: true }, // Escala y DPI aumentados
-        jsPDF: { unit: 'mm', format: 'legal', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().from(input).set(options).save();
     }
@@ -32,18 +32,17 @@ const CuentaDeCobro = () => {
   return (
     <div  ref={componentRef}>
       {<div className="container">
-        <div className="texto1">FECHA: MAYO 23 2024</div>
+        <div className="texto1 ">FECHA: MAYO 23 2024</div>
 
         <div className="text-center p-2 sm:px-7  font-medium text-gray-800">
-          <h1 className="texto4">CUENTA DE COBRO No. 03-2024</h1>
-          <br />
+          <h1 className="texto4 mb-3">CUENTA DE COBRO No. 03-2024</h1>
+          
           <h1 className="texto4">
-            LA AGENCIA DE EDUCACIÓN POSTSECUNDARIA DE MEDELLÍN -
+            LA AGENCIA DE EDUCACIÓN POSTSECUNDARIA DE MEDELLÍN - SAPIENCIA
           </h1>
-          <h1 className="texto4">SAPIENCIA</h1>
-          <h1 className="texto4">NIT:900.602.106-0</h1>
-          <br />
-          <h1 className="texto4 mb-2">DEBE A:</h1>
+          <h1 className="texto4 ">NIT:900.602.106-0</h1>
+          
+          <h1 className="texto4 mb-1">DEBE A:</h1>
         </div>
 
         <div>
@@ -93,7 +92,7 @@ const CuentaDeCobro = () => {
 
           
 
-          <h1 className="texto2 text-center mt-2 pb-2">
+          <h1 className="texto2 text-center mt-1 pb-2">
             POR LOS SIGUIENTES CONCEPTOS:
           </h1>
 
@@ -133,15 +132,15 @@ const CuentaDeCobro = () => {
             </tr>
           </table>
 
-          <p className="texto3 mt-3 leading-none">
+          <p className="texto3 mt-3 leading-none mb-3">
             He cancelado los aportes a la seguridad social mes vencido
             mediante Planilla de pago Nro. 69655746 Arus, para el periodo no
             aplica, discriminado así:
           </p>
 
-          <br />
+          
 
-          <table className="table2">
+          <table className="table2 mb-3">
             <tr>
               <td>Aportes Fondo de Pensiones:</td>
               <td>No aplica</td>
@@ -163,9 +162,9 @@ const CuentaDeCobro = () => {
             </tr>
           </table>
 
-          <br />
+          
 
-          <p className="texto3 leading-none">
+          <p className="texto3 leading-none mb-5">
             Con fundamento en lo establecido en la ley 2277 de 2022 que
             modifico el parágrafo 2 del Art. 383 E.T, reglamentado por el
             Decreto 2231 de 2023 y los Art.1.2.4.1.17 y el 1.2.4.1.6 del DUR
@@ -176,23 +175,22 @@ const CuentaDeCobro = () => {
             económica en mi declaración de renta por el año 2024.
           </p>
 
-          <br />
+          
 
-          <p className="texto3 leading-none">
+          <p className="texto3 leading-none mb-10 ">
             Así mismo declaro que los ingresos obtenidos corresponden a
             honorarios y/o compensación por servicios personales por
             concepto de rentas de trabajo que no provienen de una relación
             laboral o legal y reglamentaria.
           </p>
 
-          <br />
-          <br />
+          
 
           <p className="texto3">
             _________________________ <br /> Emerson Machado <br />{" "}
             CC.88398893
           </p>
-          <br />
+          
         </div>
 
       </div>}
