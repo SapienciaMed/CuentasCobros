@@ -147,7 +147,7 @@ const ReporteActividades = () => {
               <tr>
                 <td></td>
                 <td data-name="comentario">
-                  <input type="text" className="bg-gray-800  text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-50% p-2.5 dark:bg-gray-100  dark:placeholder-gray-800  dark:focus:ring-blue-500 dark:focus:border-blue-500 hidden border-solid border-2 border-black mb-2 mt-4" />
+                  <input type="text" className="  text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-50% p-2.5 dark:bg-gray-100  dark:placeholder-gray-800  dark:focus:ring-blue-500 dark:focus:border-blue-500 hidden border-solid border-2 border-black mb-2 mt-4" />
                   <ul></ul>
                   <button
                     onClick={addInput} data-name="AddCommentsActivity"

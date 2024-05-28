@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import Buttonpdf from '@/app/libs/ui/Buttonpdf';
 import '@/app/miscss/cuentacobro.css';
+import Menu from '../menu/page';
 
 const CuentaDeCobro = () => {
   const componentRef = useRef<HTMLDivElement>(null);
