@@ -22,3 +22,20 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model empleados {
+  identificacion   String @unique
+  primer_nombre    String
+  segundo_nombre   String
+  primer_apellido  String
+  segundo_apellido String
+  direccion        String
+  telefono         String
+}
+
+
+model contratos {
+  nro_contrato String @unique
+  objeto      String
+}

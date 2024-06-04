@@ -60,23 +60,24 @@ const ReporteActividades = () => {
   };
 
   const addInput = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget.parentElement?.firstChild);
     var input = e.currentTarget.parentElement?.firstChild as HTMLInputElement;
     var ul = e.currentTarget.parentElement?.querySelector('ul');
     if (input && ul) {
-      if (input.classList.contains('hidden')) {
-        input.classList.remove('hidden');
-      } else {
-        var comentario = input.value;
-        var li = document.createElement('li');
-        li.textContent = comentario;
-        ul.appendChild(li);
-        input.value = '';
-        input.classList.add('hidden');
-        console.log(comentario);
-      }
+        if (input.classList.contains('hidden')) {
+            input.classList.remove('hidden');
+        } else {
+            var comentario = input.value;
+            if (comentario.trim() !== '') { // Ensure comment is not empty
+                var li = document.createElement('li');
+                li.innerHTML = '&#8226; ' + comentario; // Adding bullet point (•) before the comment
+                ul.appendChild(li);
+                input.value = '';
+                input.classList.add('hidden');
+            }
+        }
     }
-  }
+}
+
 
   return (
     <div ref={componentRef}>
