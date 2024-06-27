@@ -1,10 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import 'react-toastify/ReactToastify.css'
+<<<<<<< HEAD
 import { ToastContainer, ToastPosition, toast } from 'react-toastify'
 
 import Buttoncontra from "@/app/libs/ui/Buttoncontra";
 import Menu from "@/app/libs/ui/menu";
+=======
+import {ToastContainer, ToastPosition, toast} from 'react-toastify'
+
+import Buttoncontra from "@/app/libs/ui/Buttoncontra";
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
 
 const bancos = async () => {
   try {
@@ -65,10 +71,17 @@ const eraseInput = () => {
 }
 
 const showMessage = (data: any) => {
+<<<<<<< HEAD
   if (data.title === "Error") {
     toast.error(data.cuerpo, { position: 'top-right' as ToastPosition });
   } else {
     toast.success(data.cuerpo, { position: 'top-right' as ToastPosition });
+=======
+  if(data.title === "Error"){
+    toast.error(data.cuerpo,{position: 'top-right' as ToastPosition});
+  }else{
+    toast.success(data.cuerpo,{position: 'top-right' as ToastPosition});
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
   }
 };
 
@@ -157,8 +170,13 @@ const enviarDataAplicaciones = async (data: any, retryCount = 0): Promise<void> 
 const enviarData = async () => {
   try {
 
+<<<<<<< HEAD
     const nombresInput = (document.getElementById("primer_nombre") as HTMLInputElement).value + ' ' + (document.getElementById("segundo_nombre") as HTMLInputElement).value ;
     const apellidosInput = (document.getElementById("primer_apellido") as HTMLInputElement).value + ' ' + (document.getElementById("segundo_apellido") as HTMLInputElement).value;
+=======
+    const nombresInput = (document.getElementById("nombres") as HTMLInputElement).value;
+    const apellidosInput = (document.getElementById("apellidos") as HTMLInputElement).value;
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
     const documentoInput = (document.getElementById("documento") as HTMLInputElement).value;
     const telefonoInput = (document.getElementById("telefono") as HTMLInputElement).value;
     const bancoInput = (document.getElementById("banco") as HTMLSelectElement).value;
@@ -176,10 +194,15 @@ const enviarData = async () => {
       validate: true,
     };
     const campos = [
+<<<<<<< HEAD
       { id: "primer_nombre", nombre: "primer_nombre", valor: (document.getElementById("primer_nombre") as HTMLInputElement).value.trim() },
       { id: "segundo_nombre", nombre: "segundo_nombre", valor: (document.getElementById("segundo_nombre") as HTMLInputElement).value.trim() },
       { id: "primer_apellido", nombre: "primer_apellido", valor: (document.getElementById("primer_apellido") as HTMLInputElement).value.trim() },
       { id: "segundo_apellido", nombre: "segundo_apellido", valor: (document.getElementById("segundo_apellido") as HTMLInputElement).value.trim() },
+=======
+      { id: "nombres", nombre: "Nombres", valor: (document.getElementById("nombres") as HTMLInputElement).value.trim() },
+      { id: "apellidos", nombre: "Apellidos", valor: (document.getElementById("apellidos") as HTMLInputElement).value.trim() },
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
       { id: "documento", nombre: "Documento", valor: (document.getElementById("documento") as HTMLInputElement).value.trim() },
       { id: "telefono", nombre: "Teléfono", valor: (document.getElementById("telefono") as HTMLInputElement).value.trim() },
       { id: "banco", nombre: "Banco", valor: (document.getElementById("banco") as HTMLSelectElement).value },
@@ -230,6 +253,10 @@ const enviarData = async () => {
       }
     }
     if (validacion.validate) {
+<<<<<<< HEAD
+=======
+      // Datos del contrato
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
       const dataContrato = {
         numero_contrato: numeroContratoInput,
         objeto_contrato: objetoContratoInput,
@@ -281,6 +308,7 @@ const enviarData = async () => {
 
 }
 
+<<<<<<< HEAD
 const searchContrato = async () => {
   const identificacionElement = document.getElementById('searchContrato') as HTMLInputElement | null;
   const identificacion = identificacionElement ? identificacionElement.value.trim() : '';
@@ -332,6 +360,8 @@ const searchContrato = async () => {
     showMessage({ title: 'Error', cuerpo: `Error en la solicitud: ${error instanceof Error ? error.message : String(error)}` });
   }
 };
+=======
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
 
 const Contratos = () => {
   const [bancosLoaded, setBancosLoaded] = useState(false);
@@ -343,6 +373,7 @@ const Contratos = () => {
     }
   }, [bancosLoaded]);
   return (
+<<<<<<< HEAD
     <div className="bg-gray-100" >
       <Menu />
       <div className="flex items-center justify-center space-x-9 mt-1 mb-1">
@@ -350,6 +381,9 @@ const Contratos = () => {
         <button type="button" onClick={searchContrato} className="focus:outline-none text-white bg-fuchsia-800  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 mt-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Buscar</button>
       </div>
       
+=======
+    <div >
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="max-w-4xl w-full p-6 bg-white rounded-lg shadow-md">
           <div className="border-b border-gray-900/10 pb-12">
@@ -360,14 +394,22 @@ const Contratos = () => {
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
+<<<<<<< HEAD
                   htmlFor="primer_nombre"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Primer Nombre
+=======
+                  htmlFor="nombres"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Nombres
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                 </label>
                 <div className="mt-2">
                   <input
                     type="text" required
+<<<<<<< HEAD
                     name="primer_nombre"
                     id="primer_nombre"
                     autoComplete="primer_nombre"
@@ -388,6 +430,11 @@ const Contratos = () => {
                     name="segundo_nombre"
                     id="segundo_nombre"
                     autoComplete="segundo_nombre"
+=======
+                    name="nombres"
+                    id="nombres"
+                    autoComplete="nombres"
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                     className="block w-full rounded-md border-0 py-2 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -395,15 +442,23 @@ const Contratos = () => {
 
               <div className="sm:col-span-3">
                 <label
+<<<<<<< HEAD
                   htmlFor="primer_apellido"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Primer Apellido
+=======
+                  htmlFor="apellidos"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Apellidos
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                 </label>
                 <div className="mt-2">
                   <input
                     required
                     type="text"
+<<<<<<< HEAD
                     name="primer_apellido"
                     id="primer_apellido"
                     autoComplete="primer_apellido"
@@ -425,6 +480,11 @@ const Contratos = () => {
                     name="segundo_apellido"
                     id="segundo_apellido"
                     autoComplete="segundo_apellido"
+=======
+                    name="apellidos"
+                    id="apellidos"
+                    autoComplete="apellidos"
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                     className="block w-full rounded-md border-0 py-2 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -565,7 +625,11 @@ const Contratos = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="sm:col-span-2">
+=======
+              <div className="sm:col-span-3">
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                 <label
                   htmlFor="identificacionFiscal"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -584,7 +648,11 @@ const Contratos = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="sm:col-span-2">
+=======
+              <div className="sm:col-span-3">
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                 <label
                   htmlFor="numero_contrato"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -603,7 +671,11 @@ const Contratos = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="sm:col-span-2">
+=======
+              <div className="sm:col-span-3">
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
                 <label
                   htmlFor="ano_contrato"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -623,7 +695,29 @@ const Contratos = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               
+=======
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="valor_mes"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Valor mes del contrato
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="text"
+                    name="valor_mes"
+                    id="valor_mes"
+                    autoComplete="valor_mes"
+                    className="block w-full rounded-md border-0 py-2 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
               <div className="col-span-full">
                 <label
                   htmlFor="objeto_contrato"

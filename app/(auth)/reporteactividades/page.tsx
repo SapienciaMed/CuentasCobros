@@ -3,7 +3,10 @@ import "@/app/miscss/reporteactivi.css";
 import React, { useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
 import Buttonpdf from "@/app/libs/ui/Buttonpdf";
+<<<<<<< HEAD
 import Menu from "@/app/libs/ui/menu";
+=======
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
 
 const ReporteActividades = () => {
   const componentRef = useRef(null);
@@ -76,7 +79,10 @@ const ReporteActividades = () => {
 
       if (response.ok) {
         const data = await response.json();
+<<<<<<< HEAD
         console.log(data)
+=======
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
         setActividades(data.actividades);
         setNombreContratista(data.cobro.nombres);
         setDocumentoContratista(data.cobro.documento);
@@ -99,6 +105,7 @@ const ReporteActividades = () => {
 
   return (
     <div>
+<<<<<<< HEAD
       
       <Menu/>
 
@@ -157,6 +164,62 @@ const ReporteActividades = () => {
             </tr>
           </table>
 
+=======
+      <div className="w-2/3 flex justify-center space-x-4 mx-auto items-center mt-4">
+        <input placeholder="Digite el numero de contrato" id="inputNumeroContrato" type="number" className="block w-1/4 mb-5 rounded-md border-0 py-2 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <button className="bg-red-500 rounded-xl text-white border-solid border-black border-2 p-2" onClick={searchContrato}>Buscar Contrato</button>
+      </div>
+      <div ref={componentRef}>
+        <div className="container">
+          <table className="mb-5">
+            <tr>
+              <td className="td1">
+                REPORTE DE ACTIVIDADES PARA SERVICIO DE APOYO A LA GESTIÓN
+              </td>
+              <td className="td11">Página 1 de 2 </td>
+            </tr>
+          </table>
+
+          <table className="table1 mb-6">
+            <tr>
+              <td className="td2">Informe Número</td>
+              <td className="td22" colSpan={4}>
+                Nro. 01
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Fecha</td>
+              <td className="td22" colSpan={4}>
+                {formattedDate}
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Dependencia o proceso:</td>
+              <td className="td22" colSpan={4}>
+                SUBDIRECCIÓN ADMINSITRATIVA FINAICERA YD E APOYO A LA GESTIÓN / TI
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Nombre Contratista:</td>
+              <td className="td23">{nombreContratista}</td>
+              <td className="td24">Documento de identidad:</td>
+              <td className="td24">{documentoContratista}</td>
+            </tr>
+            <tr>
+              <td className="td2">Objeto del contrato:</td>
+              <td className="td22" colSpan={4}>
+                {objetoContrato}
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Número del contrato:</td>
+              <td className="td22">{numeroContrato}</td>
+              <td className="td24">Periodo reportado:</td>
+              <td className="td24">Junio de 2023</td>
+            </tr>
+          </table>
+
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
           <table className="table3 mb-5">
             <tr>
               <td className="tdd bg-zinc-400 text-center font-black">ITEM</td>
@@ -192,7 +255,11 @@ const ReporteActividades = () => {
 
           <p>
             Firma_________________________ <br /> Nombre: {nombreContratista} <br />
+<<<<<<< HEAD
             {documentoContratista}3
+=======
+            {documentoContratista}
+>>>>>>> 849eda0dc40dc28243fabd8693194039399d0c61
           </p>
         </div>
         <Buttonpdf onClick={eventClick} />
