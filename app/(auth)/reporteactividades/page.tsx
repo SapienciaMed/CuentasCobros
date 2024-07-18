@@ -1,39 +1,26 @@
 "use client";
 import "@/app/miscss/reporteactivi.css";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
 import Buttonpdf from "@/app/libs/ui/Buttonpdf";
-import { log } from "console";
+import Menu from "@/app/libs/ui/menu";
 
 const ReporteActividades = () => {
-  const componentRef = useRef<HTMLDivElement>(null);
+  const componentRef = useRef(null);
+  const [nombreContratista, setNombreContratista] = useState<string | null>(null);
+  const [documentoContratista, setDocumentoContratista] = useState<string | null>(null);
+  const [objetoContrato, setObjetoContrato] = useState<string | null>(null);
+  const [numeroContrato, setNumeroContrato] = useState<string | null>(null);
   const [actividades, setActividades] = useState<any[]>([]);
-  useEffect(() => {
-    const actividadesDesdeBD = [
-      {
-        id: 1,
-        descripcion:
-          "Administración de las bases de datos, los archivos y el Sistema de Información de la estrategia TIC, en lo relacionado con los procesos propios del objeto del contrato, con énfasis en los proyectos SIIS, Isolucion, Mercurio, y demás que se requieran, para la administración, manejo y soporte de la infraestructura en la nube Google Cloud, permitiendo una óptima sistematización de la información.",
-      },
-      {
-        id: 2,
-        descripcion:
-          'Administración de las bases de datos, los archivos y el Sistema de Información de la estrategia TIC, en lo relacionado con los procesos propios del objeto del contrato, con énfasis en los proyectos SIIS, Isolucion, Mercurio, y demás que se requieran, para la administración, manejo y soporte de la infraestructura en la nube Google Cloud, permitiendo una óptima sistematización de la información.'
-      }
-      
-    ];
-
-    setActividades(actividadesDesdeBD);
-  }, []);
 
   const printDocument = () => {
     const input = componentRef.current;
     if (input) {
       const options = {
-        margin: [10, 10, 10, 10], // Margen de 10 mm en todos los lados
+        margin: [10, 10, 10, 10],
         filename: "ReporteDeActividades.pdf",
-        image: { type: "jpeg", quality: 1 }, // Usando JPEG con la máxima calidad
-        html2canvas: { scale: 2, dpi: 600, letterRendering: true }, // Escala y DPI aumentados
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2, dpi: 600, letterRendering: true },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
       html2pdf().from(input).set(options).save();
@@ -49,10 +36,10 @@ const ReporteActividades = () => {
       if (li) {
         button.classList.add('hidden');
       } else {
-        ul.parentElement?.parentElement?.classList.add('hidden');
+        ul?.parentElement?.parentElement?.classList.add('hidden');
       }
     });
-};
+  };
 
   const eventClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     hidden(e);
@@ -63,87 +50,125 @@ const ReporteActividades = () => {
     var input = e.currentTarget.parentElement?.firstChild as HTMLInputElement;
     var ul = e.currentTarget.parentElement?.querySelector('ul');
     if (input && ul) {
-        if (input.classList.contains('hidden')) {
-            input.classList.remove('hidden');
-        } else {
-            var comentario = input.value;
-            if (comentario.trim() !== '') { // Ensure comment is not empty
-                var li = document.createElement('li');
-                li.innerHTML = '&#8226; ' + comentario; // Adding bullet point (•) before the comment
-                ul.appendChild(li);
-                input.value = '';
-                input.classList.add('hidden');
-            }
+      if (input.classList.contains('hidden')) {
+        input.classList.remove('hidden');
+      } else {
+        var comentario = input.value;
+        if (comentario.trim() !== '') {
+          var li = document.createElement('li');
+          li.innerHTML = '&#8226; ' + comentario;
+          ul.appendChild(li);
+          input.value = '';
+          input.classList.add('hidden');
         }
+      }
     }
-}
+  };
 
+  const datos = async (numeroContrato: any) => {
+    try {
+      const response = await fetch(`/api/reporteactividades?numeroContrato=${numeroContrato}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setActividades(data.actividades);
+        setNombreContratista(data.cobro.nombres + " " + data.cobro.apellidos);
+        setDocumentoContratista(data.cobro.documento);
+        setObjetoContrato(data.contrato.objeto_contrato);
+        setNumeroContrato(data.contrato.numero_contrato);
+      } else {
+        console.error('Error en la solicitud:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error al solicitar los bancos:', error);
+    }
+  };
+
+  const formattedDate = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' })
+  .format(new Date())
+  .toLowerCase()
+  .replace(/^\w/, c => c.toUpperCase())
+  .replace(/\s+de\s+/, ' ');
+
+  const searchContrato = () => {
+    let inputNumeroContrato = document.getElementById('inputNumeroContrato') as HTMLInputElement;
+    datos(inputNumeroContrato.value);
+  };
 
   return (
-    <div ref={componentRef}>
-      <div className="container">
-        <table className="mb-5">
-          <tr>
-            <td className="td1">
-              REPORTE DE ACTIVIDADES PARA SERVICIO DE APOYO A LA GESTIÓN
-            </td>
-            <td className="td11">Página 1 de 2 </td>
-          </tr>
-        </table>
+    <div className="bg-gray-100">
+      <Menu />
+      <div className="flex items-center justify-center space-x-9 mt-1 mb-1">
+        <input placeholder="Digite el numero de contrato" id="inputNumeroContrato" type="number" className="block p-2.5 w-60 z-20 text-sm rounded-lg text-gray-900 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"  required />
+        <button className="focus:outline-none text-white bg-fuchsia-800  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 mt-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" onClick={searchContrato}>Buscar Contrato</button>
+      </div>
+      <div ref={componentRef}>
+        <div className="container">
+          <table className="mb-5">
+            <tr>
+              <td className="td1 ">
+                REPORTE DE ACTIVIDADES PARA SERVICIO DE APOYO A LA GESTIÓN
+              </td>
+              <td className="td11">Página 1 de 2 </td>
+            </tr>
+          </table>
 
-        <table className="table1 mb-6">
-          <tr>
-            <td className="td2">Informe Número</td>
-            <td className="td22" colSpan={4}>
-              Nro. 01
-            </td>
-          </tr>
-          <tr>
-            <td className="td2">Fecha</td>
-            <td className="td22" colSpan={4}>
-              Junio de 2023
-            </td>
-          </tr>
-          <tr>
-            <td className="td2">Dependencia o proceso:</td>
-            <td className="td22" colSpan={4}>
-              SUBDIRECCIÓN ADMINSITRATIVA FINAICERA YD E APOYO A LA GESTIÓN /
-              TI
-            </td>
-          </tr>
-          <tr>
-            <td className="td2">Nombre Contratista:</td>
-            <td className="td23">Emerson Bolney Machado Cordoba</td>
-            <td className="td24">Documento de identidad:</td>
-            <td className="td24">71210748</td>
-          </tr>
-          <tr>
-            <td className="td2">Objeto del contrato:</td>
-            <td className="td22" colSpan={4}>
-              Prestación de servicios profesionales para la administración de
-              nube pública y privada, desarrollo, implementación y puesta en
-              marcha de aplicativos y demás. Esto con relación a la Agencia de
-              Educación Postsecundaria de Medellín. – SAPIENCIA
-            </td>
-          </tr>
-          <tr>
-            <td className="td2">Número del contrato:</td>
-            <td className="td22">380 DE 2023</td>
-            <td className="td24">Periodo reportado:</td>
-            <td className="td24">Junio de 2023</td>
-          </tr>
-        </table>
+          <table className="table1 mb-6">
+            <tr>
+              <td className="td2">Informe Número</td>
+              <td className="td22" colSpan={4} id="informeNro">
+                Nro° <input type="text" className="border-none mt-1 w-4 h-6" />
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Fecha</td>
+              <td className="td22" colSpan={4}>
+                {formattedDate}
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Dependencia o proceso:</td>
+              <td className="td22" colSpan={4}>
+                <textarea className="border-none mt-1 w-full line-clamp-1" />
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Nombre Contratista:</td>
+              <td className="td23">{nombreContratista} {}</td>
+              <td className="td24">Documento de identidad:</td>
+              <td className="td24">{documentoContratista}</td>
+            </tr>
+            <tr>
+              <td className="td2">Objeto del contrato:</td>
+              <td className="td22" colSpan={4}>
+                {objetoContrato}
+              </td>
+            </tr>
+            <tr>
+              <td className="td2">Número del contrato:</td>
+              <td className="td22">{numeroContrato} de {formattedDate}</td>
+              <td className="td24">Periodo reportado:</td>
+              <td className="td24"><input type="text" className="border-none mt-1 h-6" /></td>
+            </tr>
+          </table>
 
-        <table className="table3 mb-5">
-          <tr>
-            <td className="tdd bg-zinc-400 text-center font-black">ITEM</td>
-            <td className="bg-zinc-400 text-center font-black">Actividades Desarrolladas en el marco de las obligaciones contractuales</td>
-          </tr>
-          {actividades.map((actividad) => (
+          <table className="table3 mb-5">
+            <tr>
+              <td className="tdd bg-zinc-400 text-center font-black">ITEM</td>
+              <td className="bg-zinc-400 text-center font-black">Actividades Desarrolladas en el marco de las obligaciones contractuales</td>
+            </tr>
+            
+            {actividades.map((actividad, index) => (
             <React.Fragment key={actividad.id}>
               <tr>
-                <td className="align-top pt-8">{actividad.id}</td>
-                <td>{actividad.descripcion}</td>
+                <td className="align-top pt-8">{index + 1}</td>
+                <td>{actividad.objeto_contractual}</td>
               </tr>
               <tr>
                 <td></td>
@@ -159,22 +184,20 @@ const ReporteActividades = () => {
                 </td>
               </tr>
             </React.Fragment>
-          ))}
-        </table>
+            ))}
+          </table>
 
-        <p className="mb-10">
-          Certifico bajo gravedad de juramento que la información consignada en
-          este informe verídica y esta soportada de manera física y en medio
-          magnético, y podrá ser confirmada por la entidad contratante.
-        </p>
+          <p className="mb-10">
+            Certifico bajo gravedad de juramento que la información consignada en este informe verídica y esta soportada de manera física y en medio magnético, y podrá ser confirmada por la entidad contratante.
+          </p>
 
-        <p>
-          Firma_________________________ <br /> Nombre: Nombre Emerson Bolney
-          Machado <br />
-          CC.88398893
-        </p>
+          <p>
+            Firma_________________________ <br /> Nombre: {nombreContratista} <br />
+            {documentoContratista}
+          </p>
+        </div>
+        <Buttonpdf onClick={eventClick} />
       </div>
-      <Buttonpdf onClick={eventClick} />
     </div>
   );
 };

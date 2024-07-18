@@ -13,29 +13,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Cobro {
+  id                   Int      @id @default(autoincrement())
+  documento            Int
+  nombres              String
+  apellidos            String
+  direccion            String
+  telefono             String 
+  correoElectronico    String
+  identificacionFiscal Int
+  nro_cuenta           Int
+  banco                Banco    @relation(fields: [bancoId], references: [id_banco])
+  bancoId              Int
+  tipoCuenta           TipoCuenta @relation(fields: [tipoCuentaId], references: [id_cuenta])
+  tipoCuentaId         Int
+  contrato             Contrato @relation(fields: [contratoId], references: [id_contrato])
+  contratoId           Int
+  actividades          Actividades[]
+}
 
-model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  username String @unique
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Banco {
+  id_banco Int      @id @default(autoincrement())
+  nombre   String
+  cobros   Cobro[]
+}
+
+model TipoCuenta {
+  id_cuenta Int      @id @default(autoincrement())
+  tipo_cuenta String
+  cobros     Cobro[]
+}
+
+model Contrato {
+  id_contrato      Int      @id @default(autoincrement())
+  numero_contrato  Int
+  objeto_contrato  String
+  ano_contrato     Int
+  valor_mes        Float
+  cobros           Cobro[]
 }
 
 
-model empleados {
-  identificacion   String @unique
-  primer_nombre    String
-  segundo_nombre   String
-  primer_apellido  String
-  segundo_apellido String
-  direccion        String
-  telefono         String
-}
 
-
-model contratos {
-  nro_contrato String @unique
-  objeto      String
+model Actividades {
+  id_actividades      Int      @id @default(autoincrement())
+  objeto_contractual Text
+  cobro               Cobro    @relation(fields: [cobroId], references: [id])
+  cobroId             Int
 }

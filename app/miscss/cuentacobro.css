@@ -1,5 +1,5 @@
 .container {
-    max-width: 800px; /* Ajusta el ancho máximo del contenedor */
+    max-width: 800px !important; /* Ajusta el ancho máximo del contenedor */
     margin: auto; /* Centra el contenedor en la página */
     padding: 30px; /* Añade relleno alrededor del contenido */
     background: #fff; /* Fondo blanco para el contenido */
@@ -7,6 +7,10 @@
 }
 br {
     line-height: 0.5; /* Reduce el espacio que añaden los <br> */
+}
+
+.background{
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 .texto1{
