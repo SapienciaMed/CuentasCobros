@@ -119,7 +119,7 @@ const CuentaDeCobro = () => {
                 </tr>
                 <tr>
                   <td className="td-inicial">CUENTA BANCARIA <br /> (Clase, banco y número)</td>
-                  <td className="td-inicial2">
+                  <td className="td-inicial2">Bancolombia
                     {datos.data.tipo_cuenta} <br />
                     {datos.data.nro_cuenta}
                   </td>

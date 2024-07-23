@@ -354,7 +354,7 @@ const Contratos = () => {
     <div >
       <Menu />
       <div className="flex items-center justify-center space-x-9 mt-1 mb-1">
-        <input type="search" id="searchContrato" className="block p-2.5 w-50% z-20 text-sm rounded-lg text-gray-900 bg-gray-50  border-s-gray-50 border-s-2 border border-gray-300   dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Digite su numero de cc" required />
+        <input type="search" id="searchContrato" className="block p-2.5 w-50% z-20 text-sm rounded-lg text-gray-900 bg-gray-50  border-s-gray-50 border-s-2 border border-gray-300   dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Digite su número de CC" required />
         <button type="button" onClick={searchContrato} className="focus:outline-none text-white bg-fuchsia-800  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 mt-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Buscar</button>
       </div>
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
