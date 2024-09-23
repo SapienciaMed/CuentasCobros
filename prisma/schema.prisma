@@ -50,6 +50,7 @@ model Contrato {
   objeto_contrato  String
   ano_contrato     Int
   valor_mes        Float
+  dependencia      String
   cobros           Cobro[]
 }
 
@@ -57,7 +58,18 @@ model Contrato {
 
 model Actividades {
   id_actividades      Int      @id @default(autoincrement())
-  objeto_contractual Text
+  objeto_contractual String
   cobro               Cobro    @relation(fields: [cobroId], references: [id])
   cobroId             Int
+}
+
+model User {
+  id                 Int      @id @default(autoincrement())
+  cedula             String   @unique
+  nombre_completo    String
+  correoElectronico  String   @unique
+  contrasena         String
+  tokenRecuperar     String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }

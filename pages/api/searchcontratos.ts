@@ -9,6 +9,11 @@ interface Contrato {
   empleado_id: number;
 }
 
+interface Banco {
+  id_banco: number;
+  nombre: string;
+}
+
 interface Empleado {
   id: number;
   documento_id: number;
@@ -39,14 +44,8 @@ interface Empleado {
   fondo_cesantias: string | null;
   fecha_nac: Date;
   rh: string;
-  id_banco: Banco | null;
+  id_banco: Banco[] | null;
   contratos: Contrato[];
-}
-
-interface Banco {
-  id_banco: number;
-  nombre: string;
-  // otros campos de la tabla banco
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -85,29 +84,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         empleado_id: contratoRow.empleado_id,
       }));
 
-      // Consulta para obtener la información del banco
-      let [bancoResult] = await pool.query<RowDataPacket[]>(
-        'SELECT * FROM bancos WHERE id_banco = ? LIMIT 1',
-        [empleado.id_banco]
+      // Consulta para obtener la información de los bancos
+      const [bancoResult] = await pool.query<RowDataPacket[]>(
+        'SELECT * FROM bancos'
       );
 
-      // Verificar si no se encontró ningún banco asociado al empleado
-      if (bancoResult.length === 0) {
-        // Asignar un valor predeterminado si no se encuentra ningún banco
-        bancoResult = [{ id_banco: 1, nombre: "Bancolombia" } as RowDataPacket];
-      }
+      // Convertir el resultado de la consulta de bancos a un arreglo de objetos Banco
+      const bancos: Banco[] = bancoResult.map((bancoRow) => ({
+        id_banco: bancoRow.id_banco,
+        nombre: bancoRow.nombre,
+      }));
 
-      const banco: Banco = bancoResult[0] as Banco;
-
+      // Asignar los contratos y bancos al objeto empleado
       empleado.contratos = contratos;
-      empleado.id_banco = banco;
-      console.log(empleado)
+      empleado.id_banco = bancos.length > 0 ? bancos : null; // Asignar bancos si existen
+
+      console.log(empleado);
       res.status(200).json({ data: empleado });
     } catch (error) {
       console.error("Error al solicitar la información:", error); 
       res.status(500).json({ error: 'Error al solicitar la información' });
     }
   } else {
-    res.status(405).json({ error: 'Método no permitido5' });
+    res.status(405).json({ error: 'Método no permitido' });
   }
 }

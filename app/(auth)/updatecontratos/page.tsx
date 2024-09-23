@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import 'react-toastify/ReactToastify.css'
 import { ToastContainer, ToastPosition, toast } from 'react-toastify'
-import { useRouter } from 'next/router';
+
 import Buttoncontra from "@/app/libs/ui/Buttoncontra";
 import Menu from "@/app/libs/ui/menu";
+import { Textarea } from "@headlessui/react";
 
 const moveInput = (direction) => {
   const divInputsActividades = document.getElementById('actividades');
@@ -46,10 +47,15 @@ const updateCounters = () => {
 }
 
 const selectInput = (event) => {
+  // Deseleccionar otros textareas
   document.querySelectorAll('#actividades textarea').forEach(textarea => {
     textarea.classList.remove('selected');
   });
+
+  // Seleccionar el textarea clickeado
   event.target.classList.add('selected');
+
+  // Mostrar el div de mover si hay un textarea seleccionado
   const moveDiv = document.getElementById('button-move-input');
   if (moveDiv) {
     moveDiv.classList.remove('hidden');
@@ -124,7 +130,7 @@ const MAX_RETRIES = 3;
 
 const enviarDataContrato = async (data: any, retryCount = 0): Promise<number> => {
   try {
-    const response = await fetch('/api/contrato', {
+    const response = await fetch('/api/updateContrato', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -151,7 +157,7 @@ const enviarDataContrato = async (data: any, retryCount = 0): Promise<number> =>
 
 const enviarDataCobro = async (data: any, retryCount = 0): Promise<void> => {
   try {
-    const response = await fetch('/api/cobros', {
+    const response = await fetch('/api/updateCobro', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -178,7 +184,7 @@ const enviarDataCobro = async (data: any, retryCount = 0): Promise<void> => {
 
 const enviarDataAplicaciones = async (data: any, retryCount = 0): Promise<void> => {
   try {
-    const response = await fetch('/api/actividades', {
+    const response = await fetch('/api/updateActividades', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -190,12 +196,12 @@ const enviarDataAplicaciones = async (data: any, retryCount = 0): Promise<void> 
       showMessage({ title: 'Éxito', cuerpo: 'Datos de las actividades enviados correctamente' });
       console.log('Datos de las actividades enviados correctamente');
     } else {
-      throw new Error('Error en el envío de datos del cobro');
+      throw new Error('Error en el envío de datos de las actividades');
     }
   } catch (error) {
     showMessage({ title: 'Error', cuerpo: 'Error al enviar datos de las actividades: ' + error.message });
     if (retryCount < MAX_RETRIES) {
-      await enviarDataCobro(data, retryCount + 1);
+      await enviarDataAplicaciones(data, retryCount + 1);
     } else {
       throw error;
     }
@@ -214,11 +220,13 @@ const enviarData = async () => {
     const correoElectronicoInput = (document.getElementById("correoElectronico") as HTMLInputElement).value;
     const direccionInput = (document.getElementById("direccion") as HTMLInputElement).value;
     const identificacionFiscalInput = (document.getElementById("identificacionFiscal") as HTMLInputElement).value;
+    const id_cobro = (document.getElementById("identificacionFiscal") as HTMLInputElement).getAttribute("data-id");
     const numeroContratoInput = (document.getElementById("numero_contrato") as HTMLInputElement).value;
     const anoContratoInput = (document.getElementById("ano_contrato") as HTMLInputElement).value;
     const valorMesInput = (document.getElementById("valor_mes") as HTMLInputElement).value;
     const objetoContratoInput = (document.getElementById("objeto_contrato") as HTMLTextAreaElement).value;
     const dependenciaInput = (document.getElementById("dependencia") as HTMLTextAreaElement).value;
+    const id_contrato = (document.getElementById("numero_contrato") as HTMLInputElement).getAttribute("data-id")
 
     let validacion = {
       validate: true,
@@ -244,10 +252,7 @@ const enviarData = async () => {
     ];
 
     for (const campo of campos) {
-      if (campo.valor === '' &&
-        campo.nombre !== "segundo_nombre" &&
-        campo.nombre !== "segundo_apellido" &&
-        campo.nombre !== "valor_mes") {
+      if (campo.valor === '' && (campo.nombre !== "segundo_nombre" && campo.nombre !== "segundo_apellido")) {
         validacion.validate = false;
         const elemento = document.getElementById(campo.id);
         console.log(elemento);
@@ -288,6 +293,7 @@ const enviarData = async () => {
         objeto_contrato: objetoContratoInput,
         ano_contrato: anoContratoInput,
         valor_mes: 0,
+        id_contrato: id_contrato
       };
       const contratoID = await enviarDataContrato(dataContrato);
       const dataCobro = {
@@ -302,20 +308,25 @@ const enviarData = async () => {
         direccion: direccionInput,
         identificacionFiscal: identificacionFiscalInput,
         contratoId: contratoID,
+        id_cobro: id_cobro,
       };
       console.log(dataCobro)
       const cobroID = await enviarDataCobro(dataCobro);
       const actividadesInputs = Array.from(document.querySelectorAll('#actividades textarea'))
-        .map((textarea) => (textarea as HTMLTextAreaElement).value);
-      console.log(actividadesInputs)
+        .map((textarea) => ({
+          value: (textarea as HTMLTextAreaElement).value,
+          id: (textarea as HTMLTextAreaElement).getAttribute('data-id') || 'null'
+        }));
 
       const dataActividades = {
-        cobroId: cobroID,
+        cobroId: id_cobro,
         objetos_contractuales: actividadesInputs,
       };
 
       console.log(dataActividades);
       enviarDataAplicaciones(dataActividades);
+
+
 
     };
     validacion.validate = true;
@@ -326,9 +337,180 @@ const enviarData = async () => {
 
 }
 
+const searchContrato = async () => {
+  const identificacionElement = document.getElementById('searchContrato') as HTMLInputElement | null;
+  const identificacion = identificacionElement ? identificacionElement.value.trim() : '';
+
+  if (!identificacion) {
+    showMessage({ title: 'Error', cuerpo: 'Por favor, ingrese un número de cédula válido.' });
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/searchcontratoprisma?numeroCedula=${identificacion}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data)
+      if (data && data.data) {
+        const {
+          id,
+          identificacion,
+          id_fiscal,
+          primer_nombre,
+          segundo_nombre,
+          primer_apellido,
+          segundo_apellido,
+          direccion,
+          telefono,
+          email,
+          nro_cuenta,
+          tipo_cuenta,
+          id_banco,
+          contratos,
+          actividades
+        } = data.data;
+        (document.getElementById("primer_nombre") as HTMLInputElement).value = primer_nombre || '';
+        (document.getElementById("primer_nombre") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("segundo_nombre") as HTMLInputElement).value = segundo_nombre || '';
+        (document.getElementById("segundo_nombre") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("primer_apellido") as HTMLInputElement).value = primer_apellido || '';
+        (document.getElementById("primer_apellido") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("segundo_apellido") as HTMLInputElement).value = segundo_apellido || '';
+        (document.getElementById("segundo_apellido") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("documento") as HTMLInputElement).value = identificacion || '';
+        (document.getElementById("documento") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("telefono") as HTMLInputElement).value = telefono || '';
+        (document.getElementById("telefono") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("nro_cuenta") as HTMLInputElement).value = nro_cuenta || '';
+        (document.getElementById("nro_cuenta") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("correoElectronico") as HTMLInputElement).value = email || '';
+        (document.getElementById("correoElectronico") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("direccion") as HTMLInputElement).value = direccion || '';
+        (document.getElementById("direccion") as HTMLInputElement).dataset.id = id.toString();
+
+        (document.getElementById("identificacionFiscal") as HTMLInputElement).value = id_fiscal || '';
+        (document.getElementById("identificacionFiscal") as HTMLInputElement).dataset.id = id.toString();
+
+        const tipoCuentaSelect = document.getElementById("tipoCuenta") as HTMLSelectElement;
+        Array.from(tipoCuentaSelect.options).forEach((option) => {
+          if (option.text == tipo_cuenta) {
+            tipoCuentaSelect.value = option.value;
+          }
+        });
+        (document.getElementById("tipoCuenta") as HTMLSelectElement).dataset.id = id.toString();
+
+        if (contratos) {
+          const { id, nro_contrato, objeto, dependencia } = contratos;
+          (document.getElementById("numero_contrato") as HTMLInputElement).value = nro_contrato || '';
+          (document.getElementById("numero_contrato") as HTMLInputElement).setAttribute('data-id', id?.toString() || '');
+
+          (document.getElementById("objeto_contrato") as HTMLTextAreaElement).value = objeto || '';
+          (document.getElementById("objeto_contrato") as HTMLTextAreaElement).setAttribute('data-id', id?.toString() || '');
+
+          (document.getElementById("dependencia") as HTMLTextAreaElement).value = dependencia || '';
+          (document.getElementById("dependencia") as HTMLTextAreaElement).setAttribute('data-id', id?.toString() || '');
+
+          (document.getElementById("valor_mes") as HTMLTextAreaElement).value = "0";
+          (document.getElementById("valor_mes") as HTMLTextAreaElement).setAttribute('data-id', id?.toString() || '');
+          showMessage({ title: 'Éxito', cuerpo: 'Datos del contrato y contratistas encontrados correctamente.' });
+        }
+
+        if (actividades) {
+          const divActividades = document.getElementById('actividades');
+          const divbuttonErase = document.getElementById('button-erase-input');
+          const spanHijo = divActividades?.children[0];
+          if (spanHijo?.classList.contains('hidden')) {
+            spanHijo.classList.remove('hidden');
+          }
+
+          if (divbuttonErase?.classList.contains('hidden')) {
+            divbuttonErase.classList.remove('hidden');
+            divbuttonErase.classList.add('flex');
+          }
+
+          for (let i in actividades) {
+            const actividad = actividades[i];
+            const dataId = actividad.id_actividades.toString();
+            const existingTextArea = divActividades?.querySelector(`textarea[data-id="${dataId}"]`);
+
+            if (!existingTextArea) {
+              // Crear un nuevo div
+              const div = document.createElement('div');
+              div.classList.add('activity-div', 'my-2');
+
+              const label = document.createElement('label');
+              label.classList.add('activity-label', 'block', 'text-gray-900');
+
+              const counter = document.createElement('span');
+              counter.classList.add('counter', 'mr-2');
+              counter.textContent = `Actividad ${parseInt(i) + parseInt(1)}:`;
+
+
+              const textAreaActividad = document.createElement('textarea');
+              textAreaActividad.setAttribute('data-id', dataId);
+              textAreaActividad.value = actividad.objeto_contractual;
+              textAreaActividad.classList.add('block', 'my-4', 'w-full', 'rounded-md', 'border-0', 'py-2', 'px-4', 'text-gray-900', 'shadow-sm', 'ring-1', 'ring-inset', 'ring-gray-300', 'placeholder:text-gray-400', 'focus:ring-2', 'focus:ring-inset', 'focus:ring-indigo-600', 'sm:text-sm', 'sm:leading-6');
+
+              label.appendChild(counter);
+              label.appendChild(textAreaActividad);
+              div.appendChild(label);
+              divActividades?.appendChild(div);
+            }
+          }
+
+          const initializeTextAreaEvents = () => {
+            const textareas = document.querySelectorAll('#actividades textarea');
+            textareas.forEach(textarea => {
+              if (!textarea.hasAttribute('data-event-attached')) {
+                textarea.addEventListener('click', selectInput);
+                textarea.setAttribute('data-event-attached', 'true');
+              }
+            });
+          }
+
+          initializeTextAreaEvents();
+        }
+
+
+        const select = document.getElementById('banco');
+        id_banco.forEach(dict => {
+          const optionExists = Array.from(select?.options || []).some(option => option.value === dict.id_banco.toString());
+          if (!optionExists) {
+            let option = document.createElement('option');
+            option.value = dict.id_banco.toString();
+            option.textContent = dict.nombre;
+            select?.appendChild(option);
+          }
+        });
+
+
+
+      } else {
+        showMessage({ title: 'Error', cuerpo: 'Datos del contratista no encontrados.' });
+      }
+    } else {
+      showMessage({ title: 'Error', cuerpo: `Error en la solicitud: ${response.statusText}` });
+    }
+  } catch (error) {
+    showMessage({ title: 'Error', cuerpo: `Error en la solicitud: ${error instanceof Error ? error.message : String(error)}` });
+  }
+}
 const Contratos = () => {
   const [bancosLoaded, setBancosLoaded] = useState(false);
-
   useEffect(() => {
     const usuarioString = window.localStorage.getItem('user');
 
@@ -336,7 +518,8 @@ const Contratos = () => {
       try {
         const usuario = JSON.parse(usuarioString);
         if (usuario && usuario.cedula) {
-          searchContrato(usuario.cedula);
+          (document.getElementById("searchContrato") as HTMLInputElement).value = usuario.cedula;
+          searchContrato()
         } else {
           showMessage({ title: 'Error', cuerpo: 'No se encontró cédula en los datos del usuario.' });
         }
@@ -348,82 +531,13 @@ const Contratos = () => {
     }
   }, []);
 
-  const searchContrato = async (identificacion: string) => {
-    if (!identificacion) {
-      showMessage({ title: 'Error', cuerpo: 'Por favor, ingrese un número de cédula válido.' });
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/searchcontratos?numeroCedula=${identificacion}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.data) {
-          const {
-            id,
-            identificacion,
-            primer_nombre,
-            segundo_nombre,
-            primer_apellido,
-            segundo_apellido,
-            direccion,
-            telefono,
-            email,
-            nro_cuenta,
-            tipo_cuenta,
-            id_banco,
-            contratos
-          } = data.data;
-          (document.getElementById("primer_nombre") as HTMLInputElement).value = primer_nombre || '';
-          (document.getElementById("segundo_nombre") as HTMLInputElement).value = segundo_nombre || '';
-          (document.getElementById("primer_apellido") as HTMLInputElement).value = primer_apellido || '';
-          (document.getElementById("segundo_apellido") as HTMLInputElement).value = segundo_apellido || '';
-          (document.getElementById("documento") as HTMLInputElement).value = identificacion || '';
-          (document.getElementById("telefono") as HTMLInputElement).value = telefono || '';
-          (document.getElementById("nro_cuenta") as HTMLInputElement).value = nro_cuenta || '';
-          (document.getElementById("correoElectronico") as HTMLInputElement).value = email || '';
-          (document.getElementById("direccion") as HTMLInputElement).value = direccion || '';
-          (document.getElementById("identificacionFiscal") as HTMLInputElement).value = identificacion || '';
-          (document.getElementById("tipoCuenta") as HTMLSelectElement).value = tipo_cuenta || '';
-
-          if (contratos && contratos.length > 0) {
-            const { nro_contrato, objeto } = contratos[0];
-            (document.getElementById("numero_contrato") as HTMLInputElement).value = nro_contrato || '';
-            (document.getElementById("objeto_contrato") as HTMLTextAreaElement).value = objeto || '';
-            showMessage({ title: 'Éxito', cuerpo: 'Datos del contrato y contratistas encontrados correctamente.' });
-          }
-          const select = document.getElementById('banco');
-          console.log(id_banco)
-          id_banco.forEach(dict => {
-            const optionExists = Array.from(select?.options || []).some(option => option.value === dict.id_banco.toString());
-            if (!optionExists) {
-              let option = document.createElement('option');
-              option.value = dict.id_banco.toString();
-              option.textContent = dict.nombre;
-              select?.appendChild(option);
-            }
-          });
-
-        } else {
-          showMessage({ title: 'Error', cuerpo: 'Datos del contratista no encontrados.' });
-        }
-      } else {
-        showMessage({ title: 'Error', cuerpo: `Error en la solicitud: ${response.statusText}` });
-      }
-    } catch (error) {
-      showMessage({ title: 'Error', cuerpo: `Error en la solicitud: ${error instanceof Error ? error.message : String(error)}` });
-    }
-  };
-
   return (
     <div >
       <Menu />
+      <div className="flex items-center justify-center space-x-9 mt-1 mb-1 hidden">
+        <input type="search" id="searchContrato" className="block p-2.5 w-50% z-20 text-sm rounded-lg text-gray-900 bg-gray-50  border-s-gray-50 border-s-2 border border-gray-300   dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Digite su número de CC" required />
+        <button type="button" onClick={searchContrato} className="focus:outline-none text-white bg-fuchsia-800  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 mt-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Buscar</button>
+      </div>
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className=" w-full p-6 bg-white rounded-lg shadow-md">
           <div className="border-b border-gray-900/10 pb-12">
@@ -706,7 +820,7 @@ const Contratos = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    value={0}
+                    required
                     type="text"
                     name="valor_mes"
                     id="valor_mes"
@@ -792,6 +906,7 @@ const Contratos = () => {
       </div>
     </div>
   );
+
 
 };
 

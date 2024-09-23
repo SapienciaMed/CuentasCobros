@@ -10,24 +10,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const numeroContrato = parseInt(req.body.numero_contrato);
         const anoContrato = parseInt(req.body.ano_contrato);
         const valorMes = parseFloat(req.body.valor_mes);
+        const id_contrato = parseInt(req.body.id_contrato);
+
         try {
-            const nuevoContrato = await prisma.contrato.create({
+            const updatedContrato = await prisma.contrato.update({
+                where: { id_contrato: id_contrato },
                 data: {
-                    numero_contrato: numeroContrato, 
-                    objeto_contrato: objetoContrato, 
+                    numero_contrato: numeroContrato,
+                    objeto_contrato: objetoContrato,
                     ano_contrato: anoContrato,
                     valor_mes: valorMes,
                     dependencia: dependencia,
                 },
             });
 
-            res.status(201).json({
-                mensaje: 'Contrato creado correctamente',
-                contratoId: nuevoContrato.id_contrato
+            res.status(200).json({
+                mensaje: 'Contrato actualizado correctamente',
+                contratoId: updatedContrato.id_contrato
             });
         } catch (error) {
-            console.error('Error al crear el contrato:', error); 
-            res.status(500).json({ error: 'Error al crear el contrato' });
+            console.error('Error al actualizar el contrato:', error); 
+            res.status(500).json({ error: 'Error al actualizar el contrato' });
         }
     } else {
         res.status(405).json({ error: 'Método no permitido' });

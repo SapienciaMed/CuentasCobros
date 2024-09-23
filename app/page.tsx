@@ -1,9 +1,17 @@
-import React from 'react'
+"use client"; // Esto indica que es un Client Component
 
-const Homepage = () => {
-  return (
-    <div></div>
-  )
-}
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation'; // Importa desde 'next/navigation'
 
-export default Homepage
+const Home = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirigir a /login cuando se carga la página
+    router.push('/login');
+  }, [router]);
+
+  return null; // o un mensaje de carga opcional
+};
+
+export default Home;

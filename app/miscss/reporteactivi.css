@@ -1,81 +1,109 @@
-.container {
-    max-width: 800px!important;
-    margin: auto; 
+/* Estilo para el contenedor de imágenes */
+.image-container {
+    display: flex; /* Habilita el modelo de caja flexible */
+    flex-wrap: nowrap; /* Mantiene las imágenes en una fila horizontal */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si hay muchas imágenes */
+    gap: 10px; /* Espacio entre las imágenes */
+  }
+  
+  /* Estilos para las imágenes subidas */
+  .uploaded-image {
+    max-width: 150px; /* Ajusta el tamaño máximo de la imagen si es necesario */
+    max-height: 150px; /* Ajusta el tamaño máximo de la imagen si es necesario */
+    object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
+  }
+  
+  /* Asegúrate de incluir otros estilos necesarios para el diseño general aquí */
+  .container {
+    max-width: 800px !important;
+    margin: auto;
     padding: 30px;
-    background: #fff; 
+    background: #fff;
     padding-top: 0;
     font-size: 13px;
-}
-
-
-
-.td1{
+  }
+  
+  .td1 {
     border: 1px solid #c1c1c1;
-    width: 80%;
+    width: 50%;
     font-size: 13px;
     padding: 20px;
     text-align: center;
     font-weight: bold;
     padding-bottom: 30px;
-}
-
-.td11{
+  }
+  
+  .td11 {
     border: 1px solid #c1c1c1;
     width: 20%;
     font-size: 13px;
     padding: 20px;
     text-align: center;
     padding-bottom: 30px;
-}
-
-.td2{
+  }
+  
+  .td2 {
     border: 1px solid #c1c1c1;
     width: 40%;
     padding-left: 10px;
     text-align: left;
     padding-bottom: 10px;
-}
-
-.td22{
+  }
+  
+  .td22 {
     border: 1px solid #c1c1c1;
     width: 60%;
     padding-left: 10px;
     text-align: left;
     padding-bottom: 10px;
-}
-
-.td23{
+    line-height: 1.5; /* Ajusta este valor según lo necesario */
+    overflow-wrap: break-word !important;
+  }
+  
+  
+  textarea {
+    width: 100%; /* Asegura que el textarea ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Asegura que el padding y border se incluyan en el width */
+    overflow-wrap: break-word; /* Asegura que el texto largo se ajuste al contenedor */
+    word-break: break-word; /* Rompe palabras largas si es necesario */
+    white-space: pre-wrap; /* Mantiene los saltos de línea en el texto */
+    resize: none; /* Evita que el textarea sea redimensionado */
+  }
+  
+  .td23 {
     border: 1px solid #c1c1c1;
     width: 60%;
     padding-left: 10px;
     text-align: left;
     padding-bottom: 10px;
-}
-
-.table1{
+  }
+  
+  .table1 {
     align-items: center;
     width: 100%;
     text-align: left;
     padding-left: 10px;
-}
-
-.td24{
+  }
+  
+  .td24 {
     border: 1px solid #c1c1c1;
-    
-}
+  }
+  
 
-td{
-    border: 1px solid #c1c1c1;
+  td {
+    border: 1px solid #c1c1c1 !important;
     padding-bottom: 10px;
     padding-left: 10px;
-}
-
-
-.tdd{
+  }
+  
+  .tdd {
     padding-left: 0;
-
-}
-
-.table3{
+  }
+  
+  .table3 {
     margin-top: 1%;
-}
+  }
+  
+
+
+  
