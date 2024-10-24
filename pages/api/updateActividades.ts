@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { objetos_contractuales, cobroId } = req.body;
 
         try {
-            // Iterar sobre cada objeto contractual para actualizar las actividades
             for (const objeto of objetos_contractuales) {
                 if(objeto.id != 'null'){
                     await prisma.actividades.update({

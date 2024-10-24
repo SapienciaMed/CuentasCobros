@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import Buttoncontra from "@/app/libs/ui/Buttoncontra";
 import Menu from "@/app/libs/ui/menu";
 
+
+
 const moveInput = (direction) => {
   const divInputsActividades = document.getElementById('actividades');
   let inputs = Array.from(divInputsActividades?.getElementsByTagName('textarea') || []);
@@ -162,9 +164,10 @@ const enviarDataCobro = async (data: any, retryCount = 0): Promise<void> => {
     if (response.ok) {
       const responseCobroData = await response.json();
       showMessage({ title: 'Éxito', cuerpo: 'Datos del cobro enviados correctamente' });
+      console.log(`Joseph el mascamonda ${responseCobroData.cobroId}`)
       return responseCobroData.cobroId;
     } else {
-      throw new Error('Error en el envío de datos del cobro');
+      showMessage({title:'Error', cuerpo:'Error en el envío de datos del cobro'});
     }
   } catch (error) {
     showMessage({ title: 'Error', cuerpo: 'Error al enviar datos del cobro: ' + error.message });
@@ -177,6 +180,7 @@ const enviarDataCobro = async (data: any, retryCount = 0): Promise<void> => {
 };
 
 const enviarDataAplicaciones = async (data: any, retryCount = 0): Promise<void> => {
+  console.log(data)
   try {
     const response = await fetch('/api/actividades', {
       method: 'POST',
@@ -190,17 +194,18 @@ const enviarDataAplicaciones = async (data: any, retryCount = 0): Promise<void> 
       showMessage({ title: 'Éxito', cuerpo: 'Datos de las actividades enviados correctamente' });
       console.log('Datos de las actividades enviados correctamente');
     } else {
-      throw new Error('Error en el envío de datos del cobro');
+      showMessage({title:'Error', cuerpo:'Error en el envío de datos del cobro'});
     }
   } catch (error) {
     showMessage({ title: 'Error', cuerpo: 'Error al enviar datos de las actividades: ' + error.message });
     if (retryCount < MAX_RETRIES) {
-      await enviarDataCobro(data, retryCount + 1);
+      await enviarDataAplicaciones(data, retryCount + 1);
     } else {
       throw error;
     }
   }
 };
+
 
 const enviarData = async () => {
   try {
@@ -556,6 +561,7 @@ const Contratos = () => {
                     autoComplete="banco"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
+                  
                   </select>
                 </div>
               </div>

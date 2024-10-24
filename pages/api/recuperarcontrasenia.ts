@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       if (user && user.contrasena === contraseña) {
-        res.status(201).json(user);
+        return res.status(201).json(user);
       } else {
         if (user) {
           const token = crypto.randomBytes(20).toString('hex');
@@ -32,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               pass: 'dqyb sbfa xjus yfnc'
             }
           });
-          
 
           const mailOptions = {
             from: 'cuenta.cobro@sapiencia.gov.co',
@@ -41,24 +40,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             text: `Haz clic en el siguiente enlace para restablecer tu contraseña: http://localhost:3000/reset-password/${token}/${cedula}`
           };
 
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.error(error);
-              res.status(500).json({ error: 'Error al enviar el correo electrónico de recuperación de contraseña' });
-            } else {
-              console.log('Correo electrónico de recuperación de contraseña enviado: ' + info.response);
-              res.status(200).json({ message: 'Se ha enviado un correo electrónico de recuperación de contraseña' });
-            }
-          });
+          // Usar await para esperar el resultado del envío de correo
+          const info = await transporter.sendMail(mailOptions);
+          console.log('Correo electrónico de recuperación de contraseña enviado: ' + info.response);
+          res.status(200).json({ message: 'Se ha enviado un correo electrónico de recuperación de contraseña', user: { correoElectronico: user.correoElectronico } });
         } else {
-          res.status(500).json({ error: 'Error al acceder al usuario: Contraseña incorrecta' });
+          return res.status(400).json({ error: 'Usuario no encontrado o contraseña incorrecta' });
         }
       }
     } catch (error) {
-      res.status(500).json({ error: 'Error al acceder al usuario: ' + error });
+      return res.status(500).json({ error: 'Error al acceder al usuario: ' + error });
     }
   } else {
     res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Método ${req.method} no permitido`);
+    return res.status(405).end(`Método ${req.method} no permitido`);
   }
 }

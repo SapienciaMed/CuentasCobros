@@ -14,7 +14,7 @@ function Loginpage() {
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Alterna el estado de mostrar/ocultar contraseña
+    setShowPassword(!showPassword);
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -60,13 +60,17 @@ function Loginpage() {
       });
       if (response.ok) {
         const responseData = await response.json();
+        console.log(responseData)
         showMessage({ title: "Éxito", cuerpo: `Se envió un correo a ${responseData.user.correoElectronico}` });
       } else {
         const errorData = await response.json();
-        showMessage({ title: "Error", cuerpo: `Error al enviar el correo: ${errorData.error}` });
+        console.log(errorData)
+        showMessage({ title: "Error", cuerpo: 'No se encontró un usuario con esa cédula\n ', errorData });
+        
       }
     } catch (error) {
-      showMessage({ title: "Error", cuerpo: 'No se encontró un usuario con esa cédula' });
+      console.log(error)
+      showMessage({ title: "Error", cuerpo: `Error al enviar el correo: ${error}` });
     }
   };
 
